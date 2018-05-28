@@ -1,2 +1,7 @@
 [vm]
 parallels ansible_ssh_host=10.211.55.20 ansible_ssh_user=root 
+
+[lxc]
+ubuntu-test ansible_ssh_host=10.88.66.98 ansible_ssh_user=root
+test-ansible ansible_ssh_host=10.88.66.225 ansible_ssh_user=root
+centos6 ansible_ssh_host=10.88.66.173 ansible_ssh_user=root
