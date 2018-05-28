@@ -1,0 +1,16 @@
+[Unit]
+Description=Backend server
+After=network.target
+
+
+[Service]
+Restart=always
+ExecStart= /usr/local/bin/http_server.py
+StandardOutput=null
+StandardError=null
+KillMode=process
+
+[Install]
+WantedBy=multi-user.target
+
+

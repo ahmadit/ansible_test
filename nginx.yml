@@ -1,0 +1,33 @@
+---
+- hosts: vm
+  gather_facts: no
+  tasks:
+   - name: Install nginx 
+     apt: pkg=nginx state=installed update_cache=no
+   - name: Push hello-world.local
+     copy: src=files/hello-world.local.conf dest=/etc/nginx/conf.d/
+   - name: Check that our config is valid 
+     command: nginx -t 
+     register: result
+     ignore_errors: true
+   - name: Rolling back config - If error 
+     file: path=/etc/nginx/conf.d/hello-world.local.conf state=absent 
+     when: result|failed
+
+   - name: Push backend http server
+     copy: src=files/hello-world.py dest=/usr/local/bin/ owner=root mode=0770 
+
+   - name: Push systemd unit 
+     copy: src=files/backend_http.service dest=/etc/systemd/system/ owner=root mode=0664
+     when: result|success
+   
+   - name: Start backend server
+     systemd: daemon_reload=yes name=backend_http.service state=started
+     when: result|success
+
+   - name: Restart Nginx
+     systemd: name=nginx state=restarted    
+     when: result|success
+
+ 
+

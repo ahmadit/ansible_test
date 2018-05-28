@@ -1,0 +1,2 @@
+[vm]
+parallels ansible_ssh_host=10.211.55.20 ansible_ssh_user=root 
